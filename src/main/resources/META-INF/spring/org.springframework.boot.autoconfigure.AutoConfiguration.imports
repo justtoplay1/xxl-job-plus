@@ -1,0 +1,5 @@
+com.justtoplay.xxl.job.plus.config.XxlJobPlusAutoConfig
+com.justtoplay.xxl.job.plus.discovery.impl.NacosDiscoveryProvider
+com.justtoplay.xxl.job.plus.controller.ExecutorController
+com.justtoplay.xxl.job.plus.handler.GlobalExceptionHandler
+com.justtoplay.xxl.job.plus.util.SpringContextUtil
