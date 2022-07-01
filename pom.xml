@@ -89,9 +89,9 @@
         <spring-boot-dependencies.version>2.7.1</spring-boot-dependencies.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <nacos-client.version>1.4.1</nacos-client.version>
+        <spring-cloud-nacos.version>2.2.5.RELEASE</spring-cloud-nacos.version>
 
         <!-- 插件依赖 -->
-        <versions-maven-plugin.version>2.11.0</versions-maven-plugin.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
@@ -132,6 +132,13 @@
         </dependency>
 
         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${spring-cloud-nacos.version}</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
@@ -162,17 +169,6 @@
                 </plugin>
             </plugins>
         </pluginManagement>
-
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>${versions-maven-plugin.version}</version>
-                <configuration>
-                    <generateBackupPoms>false</generateBackupPoms>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
     <profiles>

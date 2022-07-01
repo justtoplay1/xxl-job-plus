@@ -16,7 +16,6 @@
 
 package com.justtoplay.xxl.job.plus.discovery.impl;
 
-import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
@@ -30,6 +29,7 @@ import com.alibaba.nacos.common.http.client.NacosRestTemplate;
 import com.alibaba.nacos.common.http.client.response.HttpClientResponse;
 import com.alibaba.nacos.common.model.RequestHttpEntity;
 import com.justtoplay.xxl.job.plus.discovery.DiscoveryProvider;
+import com.justtoplay.xxl.job.plus.discovery.nacos.NamingServiceHolder;
 import com.justtoplay.xxl.job.plus.event.ServiceDownEvent;
 import com.justtoplay.xxl.job.plus.event.ServiceRefreshEvent;
 import com.justtoplay.xxl.job.plus.event.ServiceUpEvent;
@@ -62,8 +62,8 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
 
     private final static Logger logger = LoggerFactory.getLogger(NacosDiscoveryProvider.class);
 
-    @NacosInjected
-    private NamingService namingService;
+    @Autowired
+    private NamingServiceHolder namingServiceHolder;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -106,7 +106,7 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
     @Override
     public List<String> getServiceAddressList(String serviceName) {
         try {
-            final List<Instance> instances = namingService.getAllInstances(serviceName, true);
+            final List<Instance> instances = namingServiceHolder.get().getAllInstances(serviceName, true);
             if (instances != null) {
                 return instances.stream().map(instance ->
                         instance.getIp() + ":" + instance.getPort()).collect(Collectors.toList());
@@ -133,7 +133,7 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
     @Override
     public void listenCurrentServiceStatus() {
         try {
-            namingService.subscribe(executorServiceName, new EventListener() {
+            namingServiceHolder.get().subscribe(executorServiceName, new EventListener() {
                 @Override
                 public void onEvent(Event event) {
                     if (event instanceof NamingEvent) {
@@ -168,7 +168,7 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
     @Override
     public void listenServiceStatus(String serviceName) {
         try {
-            namingService.subscribe(serviceName, new EventListener() {
+            namingServiceHolder.get().subscribe(serviceName, new EventListener() {
                 @Override
                 public void onEvent(Event event) {
                     if (event instanceof NamingEvent) {
