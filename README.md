@@ -16,7 +16,7 @@ controller 实现），也不需要配置admin地址（动态从注册中心拉�
 
 ## 软件架构
 
-[![架构.png](https://s1.ax1x.com/2022/07/04/jJq4Ds.md.png)](https://imgtu.com/i/jJq4Ds)
+![架构.png](https://s1.ax1x.com/2022/07/04/jJq4Ds.md.png)
 
 Xxl-job-plus采用接口扩展和动态反射技术，对原有xxl-job-core配置做修改和注入，对xxl-job-core版本依赖性强，建议使用对应的版本
 
@@ -30,11 +30,11 @@ xxl-job-core:2.3.1+
 
 ## 下载
 
-```java
+```
 <dependency>
-<groupId>com.justtoplay</groupId>
-<artifactId>xxl-job-plus</artifactId>
-<version>${对应的xxl-job-core版本}</version>
+    <groupId>com.justtoplay</groupId>
+    <artifactId>xxl-job-plus</artifactId>
+    <version>${对应的xxl-job-core版本}</version>
 </dependency>
 ```
 
@@ -107,7 +107,7 @@ xxl-job-core:2.3.1+
 2. 创建容器并运行
 
    ```
-   docker run -e PARAMS="--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.application.name=xxl-job-admin --nacos.discovery.server-addr=127.0.0.1:8848 --nacos.discovery.register.ip=127.0.0.1 --nacos.discovery.register.port=${server.port} --nacos.discovery.namespace= --nacos.discovery.auto-register=true" -p 8080:8080 -v /tmp:/data/applogs --name xxl-job-admin  -d justtoplay/xxl-job-admin:{指定版本}
+   docker run -e PARAMS="--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.datasource.username=root --spring.datasource.password=root --spring.application.name=xxl-job-admin --nacos.discovery.server-addr=127.0.0.1:8848 --nacos.discovery.register.ip=127.0.0.1 --nacos.discovery.register.port=8080 --nacos.discovery.namespace= --nacos.discovery.auto-register=true" -p 8080:8080 -v /tmp:/data/applogs --name xxl-job-admin -d justtoplay/xxl-job-admin:{指定版本}
    ```
 
 3. 查看是否注册成功，能否正常访问调度中心
@@ -214,3 +214,4 @@ xxl-job-core:2.3.1+
 
 开源不易，如果你享受本开源产品带来的便利，那就请作者喝杯奶茶吧
 
+<img src="https://s1.ax1x.com/2022/07/05/jtM9UA.md.jpg" width="30%">
