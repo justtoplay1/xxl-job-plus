@@ -16,7 +16,7 @@ controller 实现），也不需要配置admin地址（动态从注册中心拉�
 
 ## 软件架构
 
-[![架构.png](https://s1.ax1x.com/2022/07/04/jJq4Ds.md.png)](https://imgtu.com/i/jJq4Ds)
+![架构.png](https://s1.ax1x.com/2022/07/04/jJq4Ds.md.png)
 
 Xxl-job-plus采用接口扩展和动态反射技术，对原有xxl-job-core配置做修改和注入，对xxl-job-core版本依赖性强，建议使用对应的版本
 
@@ -214,3 +214,4 @@ xxl-job-core:2.3.1+
 
 开源不易，如果你享受本开源产品带来的便利，那就请作者喝杯奶茶吧
 
+<img src="https://s1.ax1x.com/2022/07/05/jtM9UA.md.jpg" width="30%">
