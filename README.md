@@ -30,11 +30,11 @@ xxl-job-core:2.3.1+
 
 ## 下载
 
-```java
+```
 <dependency>
-<groupId>com.justtoplay</groupId>
-<artifactId>xxl-job-plus</artifactId>
-<version>${对应的xxl-job-core版本}</version>
+    <groupId>com.justtoplay</groupId>
+    <artifactId>xxl-job-plus</artifactId>
+    <version>${对应的xxl-job-core版本}</version>
 </dependency>
 ```
 
@@ -107,7 +107,7 @@ xxl-job-core:2.3.1+
 2. 创建容器并运行
 
    ```
-   docker run -e PARAMS="--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.application.name=xxl-job-admin --nacos.discovery.server-addr=127.0.0.1:8848 --nacos.discovery.register.ip=127.0.0.1 --nacos.discovery.register.port=${server.port} --nacos.discovery.namespace= --nacos.discovery.auto-register=true" -p 8080:8080 -v /tmp:/data/applogs --name xxl-job-admin  -d justtoplay/xxl-job-admin:{指定版本}
+   docker run -e PARAMS="--spring.datasource.url=jdbc:mysql://127.0.0.1:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.datasource.username=root --spring.datasource.password=root --spring.application.name=xxl-job-admin --nacos.discovery.server-addr=127.0.0.1:8848 --nacos.discovery.register.ip=127.0.0.1 --nacos.discovery.register.port=8080 --nacos.discovery.namespace= --nacos.discovery.auto-register=true" -p 8080:8080 -v /tmp:/data/applogs --name xxl-job-admin -d justtoplay/xxl-job-admin:{指定版本}
    ```
 
 3. 查看是否注册成功，能否正常访问调度中心
