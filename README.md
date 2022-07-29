@@ -214,4 +214,4 @@ xxl-job-core:2.3.1+
 
 开源不易，如果你享受本开源产品带来的便利，那就请作者喝杯奶茶吧
 
-<img src="https://s1.ax1x.com/2022/07/05/jtM9UA.md.jpg" width="50%">
+<img src="https://gitee.com/justtoplay/xxl-job-plus/blob/master/paycode.jpeg" width="50%">
