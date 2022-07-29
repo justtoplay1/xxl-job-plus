@@ -16,7 +16,7 @@ controller 实现），也不需要配置admin地址（动态从注册中心拉�
 
 ## 软件架构
 
-![架构.png](https://s1.ax1x.com/2022/07/04/jJq4Ds.md.png)
+![架构.png](https://gitee.com/justtoplay/xxl-job-plus/raw/master/framework.png)
 
 Xxl-job-plus采用接口扩展和动态反射技术，对原有xxl-job-core配置做修改和注入，对xxl-job-core版本依赖性强，建议使用对应的版本
 
