@@ -1,5 +1,7 @@
 # xxl-job-plus
 
+**开源不易，麻烦给个star，让更多的朋友使用起来，大家一起用，我才能知道代码的不足，才能添加新的features**
+
 ## 特别鸣谢
 
 **[许雪里/xxl-job](https://www.xuxueli.com/xxl-job/)**
