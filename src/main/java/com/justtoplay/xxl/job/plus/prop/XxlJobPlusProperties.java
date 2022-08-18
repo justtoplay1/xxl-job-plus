@@ -74,7 +74,7 @@ public class XxlJobPlusProperties {
 
     public static class AdminProperties {
 
-        private String serviceName;
+        private String serviceName = "xxl-job-admin";
 
         private String contextPath = "/xxl-job-admin";
 
