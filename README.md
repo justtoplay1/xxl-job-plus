@@ -183,7 +183,7 @@ xxl-job-core:2.3.1+
 3. 修改业务工程的application.properties配置文件
 
    ```
-   # xxl-job-admin注册到注册中心的名称
+   # xxl-job-admin注册到注册中心的名称，默认xxl-job-admin，可不用配置。如xxl-job-admin注册名改动，请同步修改
    xxl.job.plus.admin.service-name=xxl-job-admin
    
    # executor 注册到xxl-job-admin executor列表的名称，默认同spring.application.name，可不用配置
