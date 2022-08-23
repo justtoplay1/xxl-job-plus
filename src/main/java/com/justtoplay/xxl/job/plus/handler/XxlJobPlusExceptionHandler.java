@@ -16,6 +16,7 @@
 
 package com.justtoplay.xxl.job.plus.handler;
 
+import com.justtoplay.xxl.job.plus.controller.ExecutorController;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.util.ThrowableUtil;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -31,8 +32,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @since 2022/06/26 15:51
  */
 @ConditionalOnWebApplication
-@RestControllerAdvice
-public class GlobalExceptionHandler {
+@RestControllerAdvice(basePackageClasses = {ExecutorController.class})
+public class XxlJobPlusExceptionHandler {
 
     /**
      * 服务器内部错误校验
