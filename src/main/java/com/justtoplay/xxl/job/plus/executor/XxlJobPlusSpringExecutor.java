@@ -45,6 +45,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author justtoplay
  * @since 2022/06/26 17:29
  */
+@SuppressWarnings("unchecked")
 public class XxlJobPlusSpringExecutor extends XxlJobSpringExecutor {
 
     private static final Logger logger = LoggerFactory.getLogger(XxlJobPlusSpringExecutor.class);

@@ -28,11 +28,11 @@ import com.xxl.job.core.biz.impl.ExecutorBizImpl;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.Async;
 
@@ -45,7 +45,7 @@ import javax.annotation.Resource;
  * @since 2022/06/25 22:05
  */
 @EnableConfigurationProperties(XxlJobPlusProperties.class)
-@AutoConfiguration
+@Configuration
 public class XxlJobPlusAutoConfig implements ApplicationListener<DiscoveryEvent> {
     private static final Logger logger = LoggerFactory.getLogger(XxlJobPlusAutoConfig.class);
 
@@ -96,8 +96,7 @@ public class XxlJobPlusAutoConfig implements ApplicationListener<DiscoveryEvent>
     @Lazy
     @Bean
     public XxlJobSpringExecutor xxlJobExecutor() {
-        XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobPlusSpringExecutor(xxlJobPlusProperties, discoveryProvider);
-        return xxlJobSpringExecutor;
+        return new XxlJobPlusSpringExecutor(xxlJobPlusProperties, discoveryProvider);
     }
 
     @Lazy
