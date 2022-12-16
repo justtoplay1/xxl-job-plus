@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.justtoplay.xxl.job.plus.discovery.impl;
+package com.justtoplay.xxl.job.plus.discovery.nacos;
 
 import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.api.exception.NacosException;
@@ -23,13 +23,12 @@ import com.alibaba.nacos.api.naming.listener.Event;
 import com.alibaba.nacos.api.naming.listener.EventListener;
 import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.alibaba.nacos.client.naming.net.NamingHttpClientManager;
+import com.alibaba.nacos.client.naming.remote.http.NamingHttpClientManager;
 import com.alibaba.nacos.common.http.client.HttpClientRequestInterceptor;
 import com.alibaba.nacos.common.http.client.NacosRestTemplate;
 import com.alibaba.nacos.common.http.client.response.HttpClientResponse;
 import com.alibaba.nacos.common.model.RequestHttpEntity;
 import com.justtoplay.xxl.job.plus.discovery.DiscoveryProvider;
-import com.justtoplay.xxl.job.plus.discovery.nacos.NamingServiceHolder;
 import com.justtoplay.xxl.job.plus.event.ServiceDownEvent;
 import com.justtoplay.xxl.job.plus.event.ServiceRefreshEvent;
 import com.justtoplay.xxl.job.plus.event.ServiceUpEvent;
@@ -73,11 +72,12 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
     private String executorServiceName;
 
     public NacosDiscoveryProvider() {
+        logger.info(">>>>>>>>>>> xxl-job-plus, NacosDiscoveryProvider init");
         NacosRestTemplate nacosRestTemplate = NamingHttpClientManager.getInstance().getNacosRestTemplate();
         nacosRestTemplate.setInterceptors(Collections.singletonList(new HttpClientRequestInterceptor() {
             @Override
             public boolean isIntercept(URI uri, String s, RequestHttpEntity requestHttpEntity) {
-                if ("/nacos/v1/ns/instance".equals(uri.getRawPath())) {
+                if ("/nacos/v2/ns/instance".equals(uri.getRawPath())) {
                     currentExecutorAddress = "" + requestHttpEntity.getQuery().getValue("ip") + ":" + requestHttpEntity.getQuery().getValue(
                             "port");
                     String[] serviceNames = requestHttpEntity.getQuery().getValue(

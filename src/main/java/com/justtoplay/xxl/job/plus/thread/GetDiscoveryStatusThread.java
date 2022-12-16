@@ -91,6 +91,7 @@ public class GetDiscoveryStatusThread {
             getResisterStatusThread.setDaemon(true);
             getResisterStatusThread.setName("xxl-job-plus, executor GetDiscoveryStatusThread");
         }
+        //todo 启动前需要检查状态是不是已经启动过了
         getResisterStatusThread.start();
     }
 

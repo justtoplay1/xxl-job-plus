@@ -16,7 +16,6 @@
 
 package com.justtoplay.xxl.job.plus.discovery.nacos;
 
-import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.NacosServiceManager;
 import com.alibaba.nacos.api.naming.NamingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +29,14 @@ import org.springframework.stereotype.Component;
  * @since 2022/06/26 23:27
  */
 @Component
-@ConditionalOnClass({NacosServiceManager.class, NacosDiscoveryProperties.class})
+@ConditionalOnClass({NacosServiceManager.class})
 public class CloudNamingServiceHolder implements NamingServiceHolder {
 
     @Autowired
     private NacosServiceManager nacosServiceManager;
 
-    @Autowired
-    private NacosDiscoveryProperties nacosDiscoveryProperties;
-
     @Override
     public NamingService get() {
-        return nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties());
+        return nacosServiceManager.getNamingService();
     }
 }
