@@ -26,4 +26,8 @@ import com.alibaba.nacos.api.naming.NamingService;
  */
 public interface NamingServiceHolder {
     NamingService get();
+
+    String getExecutorAddress();
+
+    String getServiceName();
 }

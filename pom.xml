@@ -88,8 +88,8 @@
 
         <spring-boot-dependencies.version>2.7.6</spring-boot-dependencies.version>
         <xxl-job.version>2.3.1</xxl-job.version>
-        <nacos-client.version>2.2.0</nacos-client.version>
         <spring-cloud-nacos.version>2021.0.4.0</spring-cloud-nacos.version>
+        <spring-boot-nacos.version>0.2.12</spring-boot-nacos.version>
 
         <!-- 插件依赖 -->
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
@@ -125,16 +125,16 @@
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>${nacos-client.version}</version>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${spring-cloud-nacos.version}</version>
             <optional>true</optional>
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>${spring-cloud-nacos.version}</version>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>nacos-discovery-spring-boot-starter</artifactId>
+            <version>${spring-boot-nacos.version}</version>
             <optional>true</optional>
         </dependency>
 

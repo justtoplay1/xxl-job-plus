@@ -16,8 +16,12 @@
 
 package com.justtoplay.xxl.job.plus.discovery.nacos;
 
+import com.alibaba.boot.nacos.discovery.properties.NacosDiscoveryProperties;
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.naming.NamingService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +38,29 @@ public class DefaultNamingServiceHolder implements NamingServiceHolder {
     @NacosInjected
     private NamingService namingService;
 
+    @Autowired
+    private NacosDiscoveryProperties discoveryProperties;
+
+    @Value("${spring.application.name:}")
+    private String applicationName;
+
     @Override
     public NamingService get() {
         return namingService;
+    }
+
+    @Override
+    public String getExecutorAddress() {
+        return discoveryProperties.getRegister().getIp() + ":" +discoveryProperties.getRegister().getPort();
+    }
+
+    @Override
+    public String getServiceName() {
+        String serviceName = discoveryProperties.getRegister().getServiceName();
+
+        if (StringUtils.isEmpty(serviceName)){
+            serviceName = applicationName;
+        }
+        return serviceName;
     }
 }
