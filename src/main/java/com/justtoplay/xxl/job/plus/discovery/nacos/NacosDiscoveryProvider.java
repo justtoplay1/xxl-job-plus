@@ -31,11 +31,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +51,7 @@ import java.util.stream.Collectors;
 @Component
 @ConditionalOnClass(NamingService.class)
 @ConditionalOnMissingBean(DiscoveryProvider.class)
+@AutoConfigureAfter(NamingServiceHolder.class)
 public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean {
 
     private final static Logger logger = LoggerFactory.getLogger(NacosDiscoveryProvider.class);
@@ -63,45 +66,16 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
 
     private String executorServiceName;
 
-    public NacosDiscoveryProvider() {
+    @PostConstruct
+    public void init() {
         logger.info(">>>>>>>>>>> xxl-job-plus, NacosDiscoveryProvider init");
-//        NacosRestTemplate nacosRestTemplate = NamingHttpClientManager.getInstance().getNacosRestTemplate();
-//        nacosRestTemplate.setInterceptors(Collections.singletonList(new HttpClientRequestInterceptor() {
-//            @Override
-//            public boolean isIntercept(URI uri, String s, RequestHttpEntity requestHttpEntity) {
-//                if ("/nacos/v2/ns/instance".equals(uri.getRawPath())) {
-//                    currentExecutorAddress = "" + requestHttpEntity.getQuery().getValue("ip") + ":" + requestHttpEntity.getQuery().getValue(
-//                            "port");
-//                    String[] serviceNames = requestHttpEntity.getQuery().getValue(
-//                            "serviceName").toString().split(Constants.SERVICE_INFO_SPLITER);
-//                    executorServiceName = serviceNames[1];
-//
-//                    GetDiscoveryStatusThread.getInstance().start(currentExecutorAddress, executorServiceName,
-//                            NacosDiscoveryProvider.this);
-//                }
-//                return false;
-//            }
-//
-//            @Override
-//            public HttpClientResponse intercept() {
-//                return null;
-//            }
-//        }));
-        new Thread(()->{
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
 
-            if (namingServiceHolder != null){
-                currentExecutorAddress = namingServiceHolder.getExecutorAddress();
-                executorServiceName = namingServiceHolder.getServiceName();
-                GetDiscoveryStatusThread.getInstance().start(currentExecutorAddress, executorServiceName,
-                        NacosDiscoveryProvider.this);
-            }
-        }).start();
-
+        if (namingServiceHolder != null) {
+            currentExecutorAddress = namingServiceHolder.getExecutorAddress();
+            executorServiceName = namingServiceHolder.getServiceName();
+            GetDiscoveryStatusThread.getInstance().start(currentExecutorAddress, executorServiceName,
+                    NacosDiscoveryProvider.this);
+        }
     }
 
     /**
