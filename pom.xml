@@ -29,6 +29,7 @@
     <description>This project is an enhancement package worked in the executor client, which must work with xxl-job
         admin
     </description>
+    <url>https://gitee.com/justtoplay/xxl-job-plus</url>
 
     <licenses>
         <license>
