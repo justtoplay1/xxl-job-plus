@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * @since 2022/06/26 23:27
  */
 @Component
-@ConditionalOnClass({NacosServiceManager.class, NacosDiscoveryProperties.class})
+@ConditionalOnClass({NacosServiceManager.class})
 public class CloudNamingServiceHolder implements NamingServiceHolder {
 
     @Autowired
@@ -41,6 +41,16 @@ public class CloudNamingServiceHolder implements NamingServiceHolder {
 
     @Override
     public NamingService get() {
-        return nacosServiceManager.getNamingService(nacosDiscoveryProperties.getNacosProperties());
+        return nacosServiceManager.getNamingService();
+    }
+
+    @Override
+    public String getExecutorAddress() {
+        return nacosDiscoveryProperties.getIp() + ":" + nacosDiscoveryProperties.getPort();
+    }
+
+    @Override
+    public String getServiceName() {
+        return nacosDiscoveryProperties.getService();
     }
 }

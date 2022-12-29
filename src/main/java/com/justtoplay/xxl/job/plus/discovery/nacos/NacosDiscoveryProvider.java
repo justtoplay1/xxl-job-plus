@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-package com.justtoplay.xxl.job.plus.discovery.impl;
+package com.justtoplay.xxl.job.plus.discovery.nacos;
 
-import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.listener.Event;
 import com.alibaba.nacos.api.naming.listener.EventListener;
 import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.alibaba.nacos.client.naming.net.NamingHttpClientManager;
-import com.alibaba.nacos.common.http.client.HttpClientRequestInterceptor;
-import com.alibaba.nacos.common.http.client.NacosRestTemplate;
-import com.alibaba.nacos.common.http.client.response.HttpClientResponse;
-import com.alibaba.nacos.common.model.RequestHttpEntity;
 import com.justtoplay.xxl.job.plus.discovery.DiscoveryProvider;
-import com.justtoplay.xxl.job.plus.discovery.nacos.NamingServiceHolder;
 import com.justtoplay.xxl.job.plus.event.ServiceDownEvent;
 import com.justtoplay.xxl.job.plus.event.ServiceRefreshEvent;
 import com.justtoplay.xxl.job.plus.event.ServiceUpEvent;
@@ -38,14 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,6 +51,7 @@ import java.util.stream.Collectors;
 @Component
 @ConditionalOnClass(NamingService.class)
 @ConditionalOnMissingBean(DiscoveryProvider.class)
+@AutoConfigureAfter(NamingServiceHolder.class)
 public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean {
 
     private final static Logger logger = LoggerFactory.getLogger(NacosDiscoveryProvider.class);
@@ -72,29 +66,16 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
 
     private String executorServiceName;
 
-    public NacosDiscoveryProvider() {
-        NacosRestTemplate nacosRestTemplate = NamingHttpClientManager.getInstance().getNacosRestTemplate();
-        nacosRestTemplate.setInterceptors(Collections.singletonList(new HttpClientRequestInterceptor() {
-            @Override
-            public boolean isIntercept(URI uri, String s, RequestHttpEntity requestHttpEntity) {
-                if ("/nacos/v1/ns/instance".equals(uri.getRawPath())) {
-                    currentExecutorAddress = "" + requestHttpEntity.getQuery().getValue("ip") + ":" + requestHttpEntity.getQuery().getValue(
-                            "port");
-                    String[] serviceNames = requestHttpEntity.getQuery().getValue(
-                            "serviceName").toString().split(Constants.SERVICE_INFO_SPLITER);
-                    executorServiceName = serviceNames[1];
+    @PostConstruct
+    public void init() {
+        logger.info(">>>>>>>>>>> xxl-job-plus, NacosDiscoveryProvider init");
 
-                    GetDiscoveryStatusThread.getInstance().start(currentExecutorAddress, executorServiceName,
-                            NacosDiscoveryProvider.this);
-                }
-                return false;
-            }
-
-            @Override
-            public HttpClientResponse intercept() {
-                return null;
-            }
-        }));
+        if (namingServiceHolder != null) {
+            currentExecutorAddress = namingServiceHolder.getExecutorAddress();
+            executorServiceName = namingServiceHolder.getServiceName();
+            GetDiscoveryStatusThread.getInstance().start(currentExecutorAddress, executorServiceName,
+                    NacosDiscoveryProvider.this);
+        }
     }
 
     /**

@@ -62,6 +62,10 @@ public class XxlJobPlusAutoConfig implements ApplicationListener<DiscoveryEvent>
 
     private boolean isRunning = false;
 
+    public XxlJobPlusAutoConfig() {
+        logger.info(">>>>>>>>>>> xxl-job-plus, XxlJobPlusAutoConfig init");
+    }
+
     @Async
     @Override
     public void onApplicationEvent(DiscoveryEvent event) {

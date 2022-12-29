@@ -203,9 +203,7 @@ public class XxlJobPlusSpringExecutor extends XxlJobSpringExecutor {
             Field jobThreadRepository = XxlJobExecutor.class.getDeclaredField("jobThreadRepository");
             jobThreadRepository.setAccessible(true);
             return (ConcurrentMap<Integer, JobThread>) jobThreadRepository.get(this);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return new ConcurrentHashMap<Integer, JobThread>();
@@ -216,9 +214,7 @@ public class XxlJobPlusSpringExecutor extends XxlJobSpringExecutor {
             Field jobHandlerRepository = XxlJobExecutor.class.getDeclaredField("jobHandlerRepository");
             jobHandlerRepository.setAccessible(true);
             return (ConcurrentMap<String, IJobHandler>) jobHandlerRepository.get(this);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
         return new ConcurrentHashMap<String, IJobHandler>();

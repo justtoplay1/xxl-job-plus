@@ -16,8 +16,14 @@
 
 package com.justtoplay.xxl.job.plus.discovery.nacos;
 
+import com.alibaba.boot.nacos.discovery.properties.NacosDiscoveryProperties;
+import com.alibaba.boot.nacos.discovery.properties.Register;
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.naming.NamingService;
+import com.alibaba.nacos.api.utils.NetUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +40,43 @@ public class DefaultNamingServiceHolder implements NamingServiceHolder {
     @NacosInjected
     private NamingService namingService;
 
+    @Autowired
+    private NacosDiscoveryProperties discoveryProperties;
+
+    @Value("${spring.application.name:}")
+    private String applicationName;
+
+    @Value("${server.port}")
+    private Integer port;
+
     @Override
     public NamingService get() {
         return namingService;
+    }
+
+    @Override
+    public String getExecutorAddress() {
+
+        Register register = discoveryProperties.getRegister();
+
+        if (StringUtils.isEmpty(register.getIp())) {
+            register.setIp(NetUtils.localIP());
+        }
+
+        if (register.getPort() == 0) {
+            register.setPort(port);
+        }
+
+        return register.getIp() + ":" + register.getPort();
+    }
+
+    @Override
+    public String getServiceName() {
+        String serviceName = discoveryProperties.getRegister().getServiceName();
+
+        if (StringUtils.isEmpty(serviceName)){
+            serviceName = applicationName;
+        }
+        return serviceName;
     }
 }

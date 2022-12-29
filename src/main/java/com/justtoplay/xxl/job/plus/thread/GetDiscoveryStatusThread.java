@@ -91,6 +91,7 @@ public class GetDiscoveryStatusThread {
             getResisterStatusThread.setDaemon(true);
             getResisterStatusThread.setName("xxl-job-plus, executor GetDiscoveryStatusThread");
         }
+
         getResisterStatusThread.start();
     }
 
