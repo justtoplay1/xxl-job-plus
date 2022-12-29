@@ -46,7 +46,7 @@ public class DefaultNamingServiceHolder implements NamingServiceHolder {
     @Value("${spring.application.name:}")
     private String applicationName;
 
-    @Value("${local.server.port}")
+    @Value("${server.port}")
     private Integer port;
 
     @Override

@@ -92,10 +92,7 @@ public class GetDiscoveryStatusThread {
             getResisterStatusThread.setName("xxl-job-plus, executor GetDiscoveryStatusThread");
         }
 
-        //todo 启动前需要检查状态是不是已经启动过了
-//        if (getResisterStatusThread.getState() != Thread.State.RUNNABLE) {
         getResisterStatusThread.start();
-//        }
     }
 
     public void toStop() {
