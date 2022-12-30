@@ -34,10 +34,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ import java.util.stream.Collectors;
 @ConditionalOnClass(NamingService.class)
 @ConditionalOnMissingBean(DiscoveryProvider.class)
 @AutoConfigureAfter(NamingServiceHolder.class)
-public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean {
+public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean, ApplicationListener<WebServerInitializedEvent> {
 
     private final static Logger logger = LoggerFactory.getLogger(NacosDiscoveryProvider.class);
 
@@ -66,8 +67,8 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
 
     private String executorServiceName;
 
-    @PostConstruct
-    public void init() {
+    @Override
+    public void onApplicationEvent(WebServerInitializedEvent event) {
         logger.info(">>>>>>>>>>> xxl-job-plus, NacosDiscoveryProvider init");
 
         if (namingServiceHolder != null) {
