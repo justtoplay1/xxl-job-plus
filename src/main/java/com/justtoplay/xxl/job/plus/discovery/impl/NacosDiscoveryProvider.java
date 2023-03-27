@@ -24,6 +24,7 @@ import com.alibaba.nacos.api.naming.listener.EventListener;
 import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.client.naming.net.NamingHttpClientManager;
+import com.alibaba.nacos.client.naming.utils.UtilAndComs;
 import com.alibaba.nacos.common.http.client.HttpClientRequestInterceptor;
 import com.alibaba.nacos.common.http.client.NacosRestTemplate;
 import com.alibaba.nacos.common.http.client.response.HttpClientResponse;
@@ -77,7 +78,7 @@ public class NacosDiscoveryProvider implements DiscoveryProvider, DisposableBean
         nacosRestTemplate.setInterceptors(Collections.singletonList(new HttpClientRequestInterceptor() {
             @Override
             public boolean isIntercept(URI uri, String s, RequestHttpEntity requestHttpEntity) {
-                if ("/nacos/v1/ns/instance".equals(uri.getRawPath())) {
+                if ((UtilAndComs.webContext + "/v1/ns/instance").equals(uri.getRawPath())) {
                     currentExecutorAddress = "" + requestHttpEntity.getQuery().getValue("ip") + ":" + requestHttpEntity.getQuery().getValue(
                             "port");
                     String[] serviceNames = requestHttpEntity.getQuery().getValue(
